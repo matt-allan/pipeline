@@ -25,7 +25,7 @@ I really liked that syntax, and I wanted to write a pipeline package where I did
 PHP 7 introduced the [Uniform Variable Syntax](https://wiki.php.net/rfc/uniform_variable_syntax), which means we can do this:
 
 ```php
-pipe('hello world')('strrev')('strtoupper')()
+pipe('hello world')('strrev')('strtoupper')();
 ```
 
 Instead of something like this:
