@@ -90,6 +90,17 @@ echo $pastTimes; // playing Legend of Zelda, programming
 
 In the previous example, `json_decode` would be invoked as `json_decode($payload, true)` to return an array.
 
+### Alternative Method Call Usage
+
+You can also add stages as method calls instead of function arguments.  It's a little more readable for pipelines that are only using standard functions.
+
+```php
+pipe('hello world')
+    ->strrev()
+    ->strtoupper()
+    ->get();
+```
+
 ## Testing
 
 ``` bash

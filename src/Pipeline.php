@@ -8,11 +8,6 @@ namespace Yuloh\Pipeline;
 class Pipeline
 {
     /**
-     * @var []
-     */
-    private $stages;
-
-    /**
      * @var mixed
      */
     private $payload;
@@ -28,35 +23,36 @@ class Pipeline
     /**
      * @param  callable|null $stage A callable to process the payload.
      * @param  mixed         $args  The arguments to pass to the stage.
-     * @return mixed
+     * @return $this
      */
     public function __invoke($stage = null, ...$args)
     {
         if (func_num_args() === 0) {
-            return $this->process();
+            return $this->get();
         }
 
-        $this->stages[] = [
-            $stage,
-            $args
-        ];
+        $this->payload = $stage($this->payload, ...$args);
 
         return $this;
     }
 
     /**
-     * Process the payload.  The stages will be invoked in the order they were registered.
-     * Stages will be invoked with the payload and any arguments.
-     *
-     * @return mixed
+     * @param  string $name
+     * @param  array $arguments [description]
+     * @return $this
      */
-    private function process()
+    public function __call($name, $arguments)
     {
-        $payload = $this->payload;
-        foreach ($this->stages as $stage) {
-            $payload = $stage[0]($payload, ...$stage[1]);
-        }
+        return $this->__invoke($name, ...$arguments);
+    }
 
-        return $payload;
+    /**
+     * Returns the processed payload.
+     *
+     * @return mixed The payload after being processed by each stage.
+     */
+    public function get()
+    {
+        return $this->payload;
     }
 }

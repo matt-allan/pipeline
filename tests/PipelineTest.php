@@ -16,6 +16,16 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame('playing Legend of Zelda, programming', $pastTimes);
     }
+
+    public function testMagicCallUsage()
+    {
+        $result = pipe(['a','b','c'])
+            ->implode(',')
+            ->strtoupper()
+            ->get();
+
+        $this->assertSame('A,B,C', $result);
+    }
 }
 
 function array_get(array $array, $key, $default = null)
